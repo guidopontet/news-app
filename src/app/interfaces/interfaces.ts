@@ -15,6 +15,11 @@ export interface Article {
   content?: string;
 }
 
+export interface Categorie {
+  name: string;
+  key: string;
+}
+
 export interface Source {
   id?: string;
   name: string;

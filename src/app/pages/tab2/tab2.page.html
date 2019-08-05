@@ -1,9 +1,21 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header no-border>
+  <ion-toolbar color="dark">
     <ion-title>
-      Tab Two
+      Categorías
     </ion-title>
   </ion-toolbar>
+
+  <ion-segment scrollable mode="md"
+                color="primary"
+                (ionChange)="changeCategorie($event)">
+    <ion-segment-button mode="md"
+                        [value]="categorie"
+                        *ngFor="let categorie of categories">
+      <ion-label text-capitalize> {{ categorie['name'] }} </ion-label>
+    </ion-segment-button>
+  </ion-segment>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content color="dark">
+  <app-news [news]="news"></app-news>
+</ion-content>
