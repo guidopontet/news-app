@@ -38,14 +38,22 @@ export class Tab2Page implements OnInit {
     this.loadCategorie(categorie);
   }
 
-  loadCategorie(categorie: string) {
+  loadCategorie(categorie: string, event?) {
     this.newsService.getTopHeadLinesCategorie(categorie)
       .subscribe(res => {
         this.news.push(...res.articles);
+
+        if (event) {
+          event.target.complete();
+        }
       });
   }
 
   cleanNews() {
     this.news = [];
+  }
+
+  loadData(event) {
+    this.loadCategorie(this.segment.value, event);
   }
 }
