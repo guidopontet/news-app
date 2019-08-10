@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Article } from 'src/app/interfaces/interfaces';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, Platform } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { LocalDataService } from 'src/app/services/local-data.service';
 
@@ -21,7 +21,8 @@ export class NewComponent implements OnInit {
     private inAppBrowser: InAppBrowser,
     private actionSheetController: ActionSheetController,
     private socialSharing: SocialSharing,
-    private localDataService: LocalDataService
+    private localDataService: LocalDataService,
+    private platform: Platform
   ) { }
 
   ngOnInit() {}
@@ -59,12 +60,7 @@ export class NewComponent implements OnInit {
         icon: 'share',
         cssClass: 'new__action-sheet--dark',
         handler: () => {
-          this.socialSharing.share(
-            this.new.title,
-            this.new.source.name,
-            '',
-            this.new.url
-          );
+          this.shareNews();
         }
       }, {
         text: 'Cancel',
@@ -78,5 +74,28 @@ export class NewComponent implements OnInit {
     });
 
     await actionSheet.present();
+  }
+
+  shareNews() {
+    if (this.platform.is('cordova')) {
+      this.socialSharing.share(
+        this.new.title,
+        this.new.source.name,
+        '',
+        this.new.url
+      );
+    } else {
+      if (navigator['share']) {
+        navigator['share']({
+            title: this.new.title,
+            text: this.new.source.name,
+            url: this.new.url,
+        })
+          .then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing', error));
+      } else {
+        console.log('API Share no es soportado por el navegador actualmente');
+      }
+    }
   }
 }
