@@ -39,7 +39,7 @@ export class LocalDataService {
   deleteFromFavorites(article: Article) {
     this.favorites = this.favorites.filter(art => art !== article);
     this.storage.set('favorites', this.favorites);
-    this.presentToast('Eliminado a favoritos');
+    this.presentToast('Eliminado de favoritos');
   }
 
   async loadFavorites() {
