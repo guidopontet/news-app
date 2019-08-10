@@ -1,9 +1,15 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header no-border>
+  <ion-toolbar color="dark">
     <ion-title>
-      Tab Three
+      Favoritos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content color="dark">
+  <div class="no-favorites" *ngIf="localDataService.favorites.length === 0">
+    <h4>No hay favoritos</h4>
+  </div>
+
+  <app-news *ngIf="localDataService.favorites.length > 0" [news]="localDataService.favorites" [favoritePage]="true"></app-news>
+</ion-content>
